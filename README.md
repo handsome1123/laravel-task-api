@@ -1,3 +1,157 @@
+Insatll Xampp 
+
+===============================================
+
+Install Composer (Windows)
+
+1. Go to the official site:
+   👉 [https://getcomposer.org/download/](https://getcomposer.org/download/)
+
+2. Click **"Composer-Setup.exe"** to download the Windows installer.
+
+3. Run the installer:
+
+   * Keep the default options.
+   * When it asks for PHP path, browse to your PHP installation, e.g.:
+
+     ```
+     C:\xampp\php\php.exe
+     ```
+   * Let the installer **add Composer to your PATH** automatically.
+
+4. After installation, **close and reopen PowerShell**.
+
+---
+
+### 🧩 Step 3. Verify installation
+
+Run:
+
+```bash
+composer -V
+```
+
+✅ If you see something like `Composer version 2.x.x`, it’s working.
+
+---
+
+================================================
+
+**If your PHP’s OpenSSL certificate file is outdated or missing**, so Composer can’t verify secure HTTPS connections. Let’s fix it step-by-step 👇
+
+---
+
+### 🧰 Step 1. Download a fresh certificate bundle
+
+1. Go to:
+   👉 [https://curl.se/ca/cacert.pem](https://curl.se/ca/cacert.pem)
+2. Right-click → **Save As...** → save it as
+
+   ```
+   C:\xampp\php\extras\ssl\cacert.pem
+   ```
+
+   (create folders if needed)
+
+---
+
+### ⚙️ Step 2. Update PHP’s configuration
+
+1. Open this file:
+
+   ```
+   C:\xampp\php\php.ini
+   ```
+2. Search for:
+
+   ```
+   ;curl.cainfo=
+   ;openssl.cafile=
+   ```
+3. Remove the semicolons (`;`) and set the new path:
+
+   ```ini
+   curl.cainfo="C:\xampp\php\extras\ssl\cacert.pem"
+   openssl.cafile="C:\xampp\php\extras\ssl\cacert.pem"
+   ```
+4. Save the file.
+
+---
+
+### 🔄 Step 3. Restart everything
+
+* Close PowerShell or Command Prompt.
+* Restart XAMPP’s **Apache** (and MySQL if running).
+* Reopen PowerShell.
+
+---
+
+### 🚀 Step 4. Try again
+
+Run:
+
+```bash
+composer -V
+```
+
+If it shows a version number → you’re good to go!
+
+
+### 5️⃣ Tell Composer explicitly (optional but recommended)
+
+Run these commands to make sure Composer always uses that file:
+
+```bash
+setx COMPOSER_CAFILE "C:\xampp\php\extras\ssl\cacert.pem"
+setx SSL_CERT_FILE "C:\xampp\php\extras\ssl\cacert.pem"
+```
+
+Then **close and reopen PowerShell again**.
+
+---
+
+### 6️⃣ Test again
+
+```bash
+composer diagnose
+```
+
+✅ You should now see:
+
+```
+Checking https connectivity to packagist: OK
+Checking github.com rate limit: OK
+```
+
+---
+
+### 🚀 Then you can safely run:
+
+```bash
+composer create-project laravel/laravel laravel-task-api
+```
+
+---
+
+If it **still fails**, please run this:
+
+```bash
+php -r "echo ini_get('curl.cainfo');"
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">
@@ -64,3 +218,4 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+ 
