@@ -140,6 +140,11 @@ php -r "echo ini_get('curl.cainfo');"
 ```
 
 
+<!-- TO RUN -->
+
+php artisan migrate
+
+php artisan serve
 
 
 
